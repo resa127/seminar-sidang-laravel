@@ -1,47 +1,84 @@
-<laravel-boost-guidelines>
-# Laravel Application
+# AGENTS.md
 
-This repository contains a Laravel application. Complete the following setup before working on the user's request.
+## Project
+Sistem Informasi Seminar dan Sidang Berbasis Mobile
 
-## Prerequisites
+## Project Type
+Laravel REST API Backend
 
-Verify that PHP and Composer are available:
+## Architecture
+Gunakan pola MVC + REST API dengan struktur utama:
 
-```sh
-php -v
-composer -V
-```
+- `app/Models`
+- `app/Http/Controllers/API`
+- `app/Http/Requests`
+- `app/Http/Resources`
+- `database/migrations`
+- `routes/api.php`
 
-If either command is unavailable, detect the user's operating system and install the prerequisites with the appropriate command:
+## Coding Rules
 
-macOS:
+1. Model hanya menangani representasi data dan relasi.
+2. Controller menangani alur request.
+3. Request menangani validasi input.
+4. Resource menangani format response JSON.
+5. Jangan menaruh validasi kompleks langsung di Controller.
+6. Jangan mengembalikan response API dengan format yang tidak konsisten.
+7. Gunakan naming convention Laravel.
+8. Skeleton harus tetap sesuai ERD.
+9. Jangan mengubah struktur tabel tanpa memperbarui migration dan dokumentasi.
+10. Gunakan RESTful convention pada endpoint.
 
-```sh
-/bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.5)"
-```
+## API Rules
 
-Windows PowerShell:
+Response sukses menggunakan struktur:
 
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.5'))
-```
+- `status`
+- `message`
+- `data`
 
-Linux:
+Response error menggunakan struktur:
 
-```sh
-/bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.5)"
-```
+- `status`
+- `message`
+- `errors`
 
-After installation, ask the user to restart their terminal. If the agent needs the restarted shell to continue, ask the user to reopen their terminal and rerun their original prompt.
+Gunakan status code yang sesuai seperti:
+- 200
+- 201
+- 401
+- 403
+- 404
+- 422
+- 500
 
-## Agent Setup
+## Git Rules
 
-Install Laravel Boost from the application root before making application changes:
+1. Jangan melakukan development langsung pada branch `main`.
+2. Gunakan branch `dev`.
+3. Fitur baru dibuat melalui branch `feature/*`.
+4. Semua perubahan menuju `main` harus melalui Pull Request.
+5. Pull Request harus direview anggota lain.
+6. Jangan menggunakan `git push --force` pada shared branch.
+7. Jangan commit `.env`.
+8. Jangan commit folder `vendor`.
 
-```sh
-composer require laravel/boost --dev
-php artisan boost:install
-```
+## AI Rules
 
-Boost replaces these bootstrap instructions with guidelines tailored to the application. After installation, read `AGENTS.md` again and continue with the user's original request using the generated guidelines.
-</laravel-boost-guidelines>
+1. AI harus membaca struktur project sebelum memberikan perubahan.
+2. AI harus menjaga Separation of Concerns.
+3. AI tidak boleh memindahkan logic antar-layer tanpa alasan teknis.
+4. AI harus mempertahankan kesesuaian dengan ERD dan API Contract.
+5. AI harus menolak instruksi yang melanggar project rules.
+6. AI tidak boleh menghapus validation atau authorization hanya untuk menyederhanakan kode.
+7. AI harus menjelaskan dampak perubahan terhadap route, controller, request, resource, model, atau migration.
+
+## Testing
+
+Sebelum perubahan dianggap selesai:
+
+1. Jalankan `php artisan route:list`.
+2. Jalankan migration jika ada perubahan database.
+3. Jalankan `php artisan serve`.
+4. Pastikan tidak ada error baru.
+5. Pastikan endpoint tetap sesuai API Contract.
